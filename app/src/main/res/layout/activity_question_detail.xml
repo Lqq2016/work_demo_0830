@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    tools:context="com.lqq.test.work_demo_0830.Activities.QuestionDetailActivity">
+
+
+
+    <TextView
+        android:id="@+id/tv_question_detail_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16.0dip"
+        android:background="@drawable/answer_titlebg"
+        android:gravity="center_vertical"
+        android:padding="16dip"
+        android:textColor="@color/question_titlt"
+        android:textSize="16.0sp" />
+
+    <LinearLayout
+        android:id="@+id/quest_item_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/tv_question_detail_title" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/question_info_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/answer_footbar"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/question_toolbar_prev"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:drawablePadding="5.0dip"
+            android:drawableTop="@drawable/answer_footicon01"
+            android:gravity="center_horizontal"
+            android:paddingTop="6.0dip"
+            android:text="@string/toolbar_prev"
+            android:textColor="@color/toolbar_text"
+            android:textSize="10.0sp" />
+
+        <TextView
+            android:id="@+id/question_toolbar_favorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:drawablePadding="5.0dip"
+            android:drawableTop="@drawable/ic_favo_selector"
+            android:gravity="center_horizontal"
+            android:paddingTop="6.0dip"
+            android:text="@string/toolbar_favorite"
+            android:textColor="@color/toolbar_text"
+            android:textSize="10.0sp" />
+
+        <TextView
+            android:id="@+id/question_toolbar_next"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:drawablePadding="5.0dip"
+            android:drawableTop="@drawable/answer_footicon04"
+            android:gravity="center_horizontal"
+            android:paddingTop="6.0dip"
+            android:text="@string/toolbar_next"
+            android:textColor="@color/toolbar_text"
+            android:textSize="10.0sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/sv_ask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/question_info_toolbar"
+        android:layout_below="@id/quest_item_container"
+        android:layout_marginTop="16.0dip" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/answer_titlebg"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/question_ask"
+                android:textColor="@color/question_titlt"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/question_ask"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="12.0dip"
+                android:padding="16dp"
+                android:textColor="@color/title"
+                android:textSize="14sp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
