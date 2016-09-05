@@ -14,9 +14,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -64,6 +67,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     private Button btn_sure,btn_cancle;
+    private EditText et_nickname;
 //    private AnimationDrawable animationDrawable;//动画
 
     private getResourseHelp help;
@@ -95,6 +99,10 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
         custom_toolbar.setTitle("分类练习");
         custom_toolbar.setTitleTextColor(Color.parseColor("#000000"));
+
+//        custom_toolbar.inflateMenu(R.menu.toolbar_menu);
+//        custom_toolbar.setOnMenuItemClickListener(this);
+
         setSupportActionBar(custom_toolbar);
         //设置返回键可用
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -126,6 +134,35 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.base_toolbar_manu,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.action_search){
+
+            startActivity(new Intent(MainActivity.this, SearchActivity.class));
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        String nickname = login.getString("NICKNAME", "xxx");
+        tv_nickname.setText(nickname);
+
+    }
+
     private List<ListItem> initListData() {
 
         list = new ArrayList<ListItem>();
@@ -148,8 +185,10 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
             case 2:
-
                 custom_toolbar.setTitle(R.string.menu_achievement);
+                Toast.makeText(MainActivity.this,"暂时没有，敬请期待",Toast.LENGTH_SHORT).show();
+                custom_toolbar.setTitle(R.string.menu_exercise);
+
                 break;
             case 3:
 
@@ -190,7 +229,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 break;
             case R.id.tv_exit:
 
-                finish();
+                MainActivity.this.finish();
 
                 break;
 
@@ -207,6 +246,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
         btn_sure = (Button) view.findViewById(R.id.btn_sure);
         btn_cancle = (Button) view.findViewById(R.id.btn_cancle);
+        et_nickname = (EditText) view.findViewById(R.id.et_nickname);
         btn_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,6 +254,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
                     case R.id.btn_sure:
 
+                        String s = et_nickname.getText().toString();
+                        tv_nickname.setText(s);
+                        dialog.dismiss();
 
                         break;
 

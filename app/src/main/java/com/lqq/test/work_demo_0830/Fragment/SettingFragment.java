@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     AlertDialog dialog;
     SharedPreferences login;
     CheckBox cb_autologin,cb_showimage;
-    TextView tv_autologin,tv_showimage;
+    TextView tv_autologin,tv_showimage,tv_nickname;
+    EditText et_nickname;
     boolean autoLogin,showImage;
 
     public SettingFragment() {
@@ -133,6 +135,13 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_sure:
 
+                String s = et_nickname.getText().toString();
+//                tv_nickname.setText("**");
+                SharedPreferences.Editor edit = login.edit();
+                edit.putString("NICKNAME",s);
+                edit.commit();
+                Toast.makeText(getContext(),"修改昵称成功",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
 
                 break;
             case R.id.btn_cancle:
@@ -201,6 +210,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
 
         btn_sure = (Button) view.findViewById(R.id.btn_sure);
         btn_cancle = (Button) view.findViewById(R.id.btn_cancle);
+//        tv_nickname = (TextView) view.findViewById(R.id.tv_nickname);
+        et_nickname = (EditText) view.findViewById(R.id.et_nickname);
         btn_sure.setOnClickListener(this);
         btn_cancle.setOnClickListener(this);
 

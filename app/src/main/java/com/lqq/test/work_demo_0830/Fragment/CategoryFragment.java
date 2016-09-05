@@ -105,6 +105,7 @@ public class CategoryFragment extends Fragment implements AdapterView.OnItemClic
         Toast.makeText(adapterView.getContext(),i+"",Toast.LENGTH_SHORT).show();
         Intent it = new Intent(getContext(), QuestionListActivity.class);
         it.putExtra("id",listItems.get(i).getId());
+        it.putExtra("content",listItems.get(i).getName());
         startActivity(it);
 
     }

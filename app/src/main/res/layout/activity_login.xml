@@ -7,6 +7,8 @@
     android:orientation="vertical"
     tools:context="com.lqq.test.work_demo_0830.Activities.LoginActivity">
 
+    <include layout="@layout/custom_toolbar"/>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

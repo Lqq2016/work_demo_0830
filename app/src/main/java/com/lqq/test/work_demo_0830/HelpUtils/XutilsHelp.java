@@ -32,6 +32,7 @@ public class XutilsHelp {
     public static final String URL_QUESTION_PREV = URL_BASE + "/question?method=prev";
     public static final String URL_QUESTION_NEXT = URL_BASE + "/question?method=next";
     public static final String URL_MYFAVORITE= URL_BASE + "/mng/store?method=list";
+    public static final String URL_QUESTION_SEARCH = URL_BASE + "/question?method=list";
 
     private static RequestParams params;
     private static List<CategoryListItem> listItems;

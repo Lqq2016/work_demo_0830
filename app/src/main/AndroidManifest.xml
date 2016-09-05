@@ -19,9 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.GuideActivity" />
-        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.LoginActivity"
+            android:launchMode="singleInstance"/>
+        <activity android:name=".Activities.GuideActivity"
+            android:launchMode="singleInstance"/>
+        <activity android:name=".Activities.MainActivity"
+            android:launchMode="singleInstance"/>
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.QuestionListActivity" />

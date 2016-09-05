@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -33,12 +34,14 @@ import java.util.Date;
 import java.util.List;
 
 @ContentView(R.layout.activity_question_list)
-public class QuestionListActivity extends AppCompatActivity {
+public class QuestionListActivity extends AppCompatActivity implements View.OnClickListener {
 
     @ViewInject(R.id.lv_question)
     private ListView lv_list;
     @ViewInject(R.id.swipe_question)
     private SwipeRefreshLayout swipeRefresh;
+    @ViewInject(R.id.custom_toolbar)
+    private Toolbar toolbar;
 
     private List<QuestionList> list,tempList;
     private QuestionAdapter adapter;
@@ -63,6 +66,10 @@ public class QuestionListActivity extends AppCompatActivity {
         resourseHelp = getResourseHelp.getResourHelp();
         login = getSharedPreferences("Login", MODE_PRIVATE);
         b = resourseHelp.getOpenFavorite();
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(this);
+
         adapter = new QuestionAdapter();
 
         doGetThread();
@@ -77,7 +84,8 @@ public class QuestionListActivity extends AppCompatActivity {
                     resourseHelp.setOpenFavorite(true);
                 }
                 doGetThread();
-//                adapter.notifyDataSetChanged();
+                System.out.println(adapter.getCount()+"----------");
+                adapter.notifyDataSetChanged();
 
             }
         });
@@ -105,7 +113,7 @@ public class QuestionListActivity extends AppCompatActivity {
 
                         adapter.setData(list);
                         lv_list.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+//                        adapter.notifyDataSetChanged();
                         swipeRefresh.setRefreshing(false);
                         lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -130,14 +138,14 @@ public class QuestionListActivity extends AppCompatActivity {
     private List<QuestionList> initData(String urlQuestionList) {
 
         tempList = new ArrayList<QuestionList>();
-        Intent intent = getIntent();
-        int id = intent.getIntExtra("id", 1);
+
 //        listItem = XutilsHelp.loadQutesinList(id,1);
 
         params = new RequestParams(urlQuestionList);
 //        System.out.println(params);
         if (b){
             boolean auto_login = login.getBoolean("AUTO_LOGIN", true);
+            toolbar.setTitle("我的收藏");
             if (auto_login){
                 userId = login.getInt("USERID",2);
             }else{
@@ -147,6 +155,11 @@ public class QuestionListActivity extends AppCompatActivity {
             params.addBodyParameter("userId", String.valueOf(userId));
             resourseHelp.setOpenFavorite(false);
         }else {
+            Intent intent = getIntent();
+            int id = intent.getIntExtra("id", 1);
+            String content = intent.getStringExtra("content");
+            toolbar.setTitle(content);
+
             params.addBodyParameter("catalogId", String.valueOf(id));
             params.addBodyParameter("page", String.valueOf(1));
         }
@@ -225,4 +238,10 @@ public class QuestionListActivity extends AppCompatActivity {
         return tempList;
     }
 
+    @Override
+    public void onClick(View view) {
+
+        finish();
+
+    }
 }

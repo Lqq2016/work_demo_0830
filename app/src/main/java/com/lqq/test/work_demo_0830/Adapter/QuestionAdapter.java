@@ -12,6 +12,7 @@ import com.lqq.test.work_demo_0830.R;
 
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**

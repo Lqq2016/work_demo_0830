@@ -3,6 +3,7 @@ package com.lqq.test.work_demo_0830.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -33,6 +34,8 @@ import java.util.List;
 @ContentView(R.layout.activity_question_detail)
 public class QuestionDetailActivity extends AppCompatActivity {
 
+    @ViewInject(R.id.custom_toolbar)
+    private Toolbar toolbar;
     @ViewInject(R.id.tv_question_detail_title)
     private TextView tv_title;
     @ViewInject(R.id.question_ask)
@@ -57,6 +60,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     private String title;
     private boolean checked;
     private getResourseHelp help;
+    private int num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,16 @@ public class QuestionDetailActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_question_detail);
 
         x.view().inject(this);
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                finish();
+
+            }
+        });
 
         intent = getIntent();
         questionId = intent.getIntExtra("QuestionId",0);
@@ -147,9 +161,14 @@ public class QuestionDetailActivity extends AppCompatActivity {
             }
         }
 
+        num = detailList.size();
+
+
     }
 
     private void getCurrentQuestion(int id) {
+
+        toolbar.setTitle("第"+(id+1)+"/"+num+"道题");
 
         itemDetail = detailList.get(id);
         tv_title.setText(itemDetail.getContent());
