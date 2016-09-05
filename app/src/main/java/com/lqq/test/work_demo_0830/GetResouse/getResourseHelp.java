@@ -1,8 +1,11 @@
 package com.lqq.test.work_demo_0830.GetResouse;
 
+import com.lqq.test.work_demo_0830.Pojo.QuestionList;
 import com.lqq.test.work_demo_0830.Pojo.UserDetail;
 
 import org.json.JSONArray;
+
+import java.util.List;
 
 /**
  * Created by lqq on 2016/9/2.
@@ -27,7 +30,20 @@ public class getResourseHelp {
 
     private static JSONArray jsonArray;
     private static UserDetail userDetail;
+    private static List<QuestionList> list;
     private static boolean openFavorite;
+
+    public List<QuestionList> getList(){
+
+        return list;
+
+    }
+
+    public void setList(List<QuestionList> list){
+
+        this.list = list;
+
+    }
 
     public boolean getOpenFavorite(){
 

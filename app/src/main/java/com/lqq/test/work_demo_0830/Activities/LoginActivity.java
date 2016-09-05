@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,8 @@ public class LoginActivity extends Activity {
 
     private RequestParams params;
     private SharedPreferences login;
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,8 @@ public class LoginActivity extends Activity {
         x.view().inject(this);
 
         login = getSharedPreferences("Login", MODE_PRIVATE);
-        toolbar.setTitle("登陆");
+        toolbar.setTitle("登录");
+        builder = new AlertDialog.Builder(this);
 
     }
 
@@ -63,6 +67,10 @@ public class LoginActivity extends Activity {
         switch (view.getId()){
 
             case R.id.btn_login:
+
+                builder.setView(R.layout.pub_dialog_loading);
+                dialog = builder.create();
+                dialog.show();
 
                 String name = et_name.getText().toString();
                 String pass = et_pass.getText().toString();
@@ -94,8 +102,11 @@ public class LoginActivity extends Activity {
 
                                 Intent it = new Intent(LoginActivity.this,MainActivity.class);
                                 startActivity(it);
+                                dialog.dismiss();
+                                overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
                             }else {
 
+                                dialog.dismiss();
                                 Toast.makeText(LoginActivity.this,"账号或密码不正确，请重新输入！",Toast.LENGTH_SHORT).show();
 
                             }
@@ -126,10 +137,14 @@ public class LoginActivity extends Activity {
                 break;
             case R.id.tv_forget_pwd:
 
+                Toast.makeText(LoginActivity.this,"请重新登录",Toast.LENGTH_SHORT).show();
 
                 break;
             case R.id.tv_register:
 
+                Intent it = new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(it);
+                overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
 
                 break;
 
@@ -141,6 +156,6 @@ public class LoginActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
 
-        finish();
+        LoginActivity.this.finish();
     }
 }

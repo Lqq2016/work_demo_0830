@@ -1,6 +1,7 @@
 package com.lqq.test.work_demo_0830.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lqq.test.work_demo_0830.GetResouse.getResourseHelp;
+import com.lqq.test.work_demo_0830.HelpUtils.XutilsHelp;
 import com.lqq.test.work_demo_0830.Pojo.QuestionItemDetail;
 import com.lqq.test.work_demo_0830.Pojo.QuestionList;
 import com.lqq.test.work_demo_0830.Pojo.QuestionListItem;
@@ -20,6 +22,8 @@ import com.lqq.test.work_demo_0830.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -60,7 +64,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
     private String title;
     private boolean checked;
     private getResourseHelp help;
-    private int num;
+    private int num,curId;
+    private SharedPreferences login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +80,12 @@ public class QuestionDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 finish();
+                overridePendingTransition(R.anim.slide_back_in,R.anim.slide_back_out);
 
             }
         });
+
+        login = getSharedPreferences("Login", MODE_PRIVATE);
 
         intent = getIntent();
         questionId = intent.getIntExtra("QuestionId",0);
@@ -103,12 +111,14 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 if (questionId==0){
                     Toast.makeText(this,"没有上一题了",Toast.LENGTH_SHORT).show();
                 }else {
-                    getCurrentQuestion(--questionId);
+                    curId = --questionId;
+                    getCurrentQuestion(curId);
                 }
 
                 break;
             case R.id.question_toolbar_favorite:
 
+                doCollection();
 
                 break;
             case R.id.question_toolbar_next:
@@ -116,12 +126,64 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 if (questionId==size-1){
                     Toast.makeText(this,"没有下一题了",Toast.LENGTH_SHORT).show();
                 }else {
-                    getCurrentQuestion(++questionId);
+                    curId = ++questionId;
+                    getCurrentQuestion(curId);
                 }
 
                 break;
 
         }
+
+    }
+
+    private void doCollection() {
+
+        int userid = login.getInt("USERID", 2);
+        RequestParams params = new RequestParams(XutilsHelp.URL_STORE_MYFAVORITE);
+        params.addBodyParameter("userId", String.valueOf(userid));
+        params.addBodyParameter("questionId", String.valueOf(curId));
+        x.http().post(params, new Callback.CommonCallback<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject result) {
+
+                System.out.println(result.toString()+"??????????");
+
+                try {
+                    boolean success = result.getBoolean("success");
+
+                    if (success){
+
+                        Toast.makeText(QuestionDetailActivity.this,"收藏成功！",Toast.LENGTH_SHORT).show();
+
+                    }else {
+
+                        String reason = result.getString("reason");
+                        Toast.makeText(QuestionDetailActivity.this,reason,Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
 
     }
 

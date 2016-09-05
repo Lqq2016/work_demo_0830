@@ -38,14 +38,10 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onAnimationStart(Animation animation) {
 
-                Toast.makeText(WelcomeActivity.this,"alphaAnimation====start",Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-
-                Toast.makeText(WelcomeActivity.this,"alphaAnimation====end",Toast.LENGTH_SHORT).show();
 
                 doJump();
 
@@ -80,6 +76,7 @@ public class WelcomeActivity extends AppCompatActivity {
             edit.commit();
             Intent it = new Intent(this, GuideActivity.class);
             startActivity(it);
+            overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
 
         }else{
 
@@ -101,7 +98,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
                     Intent it = new Intent(this,LoginActivity.class);
                     startActivity(it);
-
+                    overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
                 }
 
             }
@@ -114,6 +111,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         Intent it = new Intent(this, MainActivity.class);
         startActivity(it);
+        overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
 
     }
 

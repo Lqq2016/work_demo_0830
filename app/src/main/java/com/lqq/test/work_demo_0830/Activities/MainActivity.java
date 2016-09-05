@@ -148,6 +148,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         if (id == R.id.action_search){
 
             startActivity(new Intent(MainActivity.this, SearchActivity.class));
+            overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
 
         }
 
@@ -160,6 +161,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
         String nickname = login.getString("NICKNAME", "xxx");
         tv_nickname.setText(nickname);
+        custom_toolbar.setTitle(R.string.menu_exercise);
 
     }
 
@@ -183,6 +185,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 break;
             case 1:
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
                 break;
             case 2:
                 custom_toolbar.setTitle(R.string.menu_achievement);
@@ -196,6 +199,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 custom_toolbar.setTitle(R.string.menu_fav);
                 Intent it = new Intent(MainActivity.this,QuestionListActivity.class);
                 startActivity(it);
+                overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
                 break;
         }
         custom_drawer.closeDrawers();

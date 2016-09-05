@@ -54,6 +54,7 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
     private boolean b;
     private SharedPreferences login;
     private int userId;
+    private String content;
     Handler handler = new Handler();
 
     @Override
@@ -74,6 +75,18 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
 
         doGetThread();
 
+        lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Intent it = new Intent(QuestionListActivity.this,QuestionDetailActivity.class);
+                it.putExtra("QuestionId",i);
+                startActivity(it);
+                overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
+
+            }
+        });
+
         swipeRefresh.setColorSchemeResources(R.color.color1,R.color.color2,
                 R.color.color3,R.color.color4);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -83,13 +96,42 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
                 if (b){
                     resourseHelp.setOpenFavorite(true);
                 }
-                doGetThread();
+                doReGetThread();
                 System.out.println(adapter.getCount()+"----------");
                 adapter.notifyDataSetChanged();
 
             }
         });
 
+
+    }
+
+    private void doReGetThread() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (b){
+                    list = initData(XutilsHelp.URL_MYFAVORITE);
+                }else {
+                    list = initData(XutilsHelp.URL_QUESTION_LIST);
+                }
+                resourseHelp.setList(list);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        adapter.setData(resourseHelp.getList());
+                        lv_list.setAdapter(adapter);
+//                        adapter.notifyDataSetChanged();
+                        swipeRefresh.setRefreshing(false);
+
+                    }
+                });
+
+            }
+        }).start();
 
     }
 
@@ -106,26 +148,20 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
                     list = initData(XutilsHelp.URL_QUESTION_LIST);
                 }
 
+                resourseHelp.setList(list);
+
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
 
+                        if (b){
+                            toolbar.setTitle("我的收藏");
+                        }else {
+                            toolbar.setTitle(content);
+                        }
 
-                        adapter.setData(list);
+                        adapter.setData(resourseHelp.getList());
                         lv_list.setAdapter(adapter);
-//                        adapter.notifyDataSetChanged();
-                        swipeRefresh.setRefreshing(false);
-                        lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                                Intent it = new Intent(QuestionListActivity.this,QuestionDetailActivity.class);
-                                it.putExtra("QuestionId",i);
-                                startActivity(it);
-
-                            }
-                        });
-
 
                     }
                 });
@@ -145,7 +181,6 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
 //        System.out.println(params);
         if (b){
             boolean auto_login = login.getBoolean("AUTO_LOGIN", true);
-            toolbar.setTitle("我的收藏");
             if (auto_login){
                 userId = login.getInt("USERID",2);
             }else{
@@ -157,8 +192,7 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
         }else {
             Intent intent = getIntent();
             int id = intent.getIntExtra("id", 1);
-            String content = intent.getStringExtra("content");
-            toolbar.setTitle(content);
+            content = intent.getStringExtra("content");
 
             params.addBodyParameter("catalogId", String.valueOf(id));
             params.addBodyParameter("page", String.valueOf(1));
@@ -242,6 +276,7 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
 
         finish();
+        overridePendingTransition(R.anim.slide_back_in,R.anim.slide_back_out);
 
     }
 }

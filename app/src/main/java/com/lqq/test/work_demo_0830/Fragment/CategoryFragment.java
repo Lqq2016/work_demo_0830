@@ -107,6 +107,7 @@ public class CategoryFragment extends Fragment implements AdapterView.OnItemClic
         it.putExtra("id",listItems.get(i).getId());
         it.putExtra("content",listItems.get(i).getName());
         startActivity(it);
+        getActivity().overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
 
     }
 }
