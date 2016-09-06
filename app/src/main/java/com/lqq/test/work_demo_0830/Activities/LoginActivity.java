@@ -3,6 +3,7 @@ package com.lqq.test.work_demo_0830.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -54,10 +55,19 @@ public class LoginActivity extends Activity {
 //        setContentView(R.layout.activity_login);
 
         x.view().inject(this);
+        addActivity(this);
 
         login = getSharedPreferences("Login", MODE_PRIVATE);
         toolbar.setTitle("登录");
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         builder = new AlertDialog.Builder(this);
+
+    }
+
+    private void addActivity(LoginActivity loginActivity) {
+
+        getResourseHelp help = getResourseHelp.getResourHelp();
+        help.setActivityList(loginActivity);
 
     }
 

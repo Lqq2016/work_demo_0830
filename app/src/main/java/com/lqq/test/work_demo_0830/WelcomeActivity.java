@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.lqq.test.work_demo_0830.Activities.GuideActivity;
 import com.lqq.test.work_demo_0830.Activities.LoginActivity;
 import com.lqq.test.work_demo_0830.Activities.MainActivity;
+import com.lqq.test.work_demo_0830.GetResouse.getResourseHelp;
 import com.lqq.test.work_demo_0830.HelpUtils.NetUtils;
 
 import org.xutils.view.annotation.ContentView;
@@ -30,6 +31,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
 //        View view = getWindow().getDecorView();
 
+        addActivity(this);
 
         AlphaAnimation aa = new AlphaAnimation(0.3f,1.0f);
         aa.setDuration(3000);
@@ -54,6 +56,13 @@ public class WelcomeActivity extends AppCompatActivity {
         });
 
 
+
+    }
+
+    private void addActivity(WelcomeActivity welcomeActivity) {
+
+        getResourseHelp help = getResourseHelp.getResourHelp();
+        help.setActivityList(welcomeActivity);
 
     }
 
@@ -119,6 +128,6 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        finish();
+        WelcomeActivity.this.finish();
     }
 }

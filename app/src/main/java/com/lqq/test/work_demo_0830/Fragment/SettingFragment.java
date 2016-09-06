@@ -121,6 +121,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
 
                 Intent it = new Intent(getContext(), LoginActivity.class);
                 getContext().startActivity(it);
+                getActivity().overridePendingTransition(R.anim.slide_back_in,R.anim.slide_back_out);
 
                 break;
             case R.id.rl_cleancache_set:

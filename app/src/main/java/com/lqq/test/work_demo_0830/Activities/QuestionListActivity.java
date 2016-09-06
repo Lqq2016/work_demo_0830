@@ -2,14 +2,19 @@ package com.lqq.test.work_demo_0830.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.lqq.test.work_demo_0830.Adapter.QuestionAdapter;
 import com.lqq.test.work_demo_0830.GetResouse.getResourseHelp;
@@ -55,6 +60,9 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
     private SharedPreferences login;
     private int userId;
     private String content;
+    private LinearLayout listview_foot;
+    private ProgressBar listview_foot_progress;
+    private TextView listview_foot_more;
     Handler handler = new Handler();
 
     @Override
@@ -63,6 +71,13 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
 //        setContentView(R.layout.activity_question_list);
 
         x.view().inject(this);
+        addActivity(this);
+
+        listview_foot = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.listview_footer, null);
+        listview_foot_progress = (ProgressBar)listview_foot.findViewById(R.id.listview_foot_progress);
+        listview_foot_more = (TextView)listview_foot.findViewById(R.id.listview_foot_more);
+        lv_list.addFooterView(listview_foot);
+        lv_list.setFooterDividersEnabled(false);
 
         resourseHelp = getResourseHelp.getResourHelp();
         login = getSharedPreferences("Login", MODE_PRIVATE);
@@ -74,6 +89,9 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
         adapter = new QuestionAdapter();
 
         doGetThread();
+        listview_foot_progress.setVisibility(View.GONE);
+        listview_foot_more.setText(getString(R.string.load_all));
+        listview_foot_more.setVisibility(View.VISIBLE);
 
         lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -96,13 +114,23 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
                 if (b){
                     resourseHelp.setOpenFavorite(true);
                 }
+                listview_foot_progress.setVisibility(View.VISIBLE);
+                listview_foot_more.setText(getString(R.string.doing_update));
+                listview_foot_more.setVisibility(View.VISIBLE);
                 doReGetThread();
-                System.out.println(adapter.getCount()+"----------");
                 adapter.notifyDataSetChanged();
+
 
             }
         });
 
+
+    }
+
+    private void addActivity(QuestionListActivity questionListActivity) {
+
+        getResourseHelp help = getResourseHelp.getResourHelp();
+        help.setActivityList(questionListActivity);
 
     }
 
@@ -118,6 +146,11 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
                     list = initData(XutilsHelp.URL_QUESTION_LIST);
                 }
                 resourseHelp.setList(list);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -126,6 +159,9 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
                         lv_list.setAdapter(adapter);
 //                        adapter.notifyDataSetChanged();
                         swipeRefresh.setRefreshing(false);
+                        listview_foot_progress.setVisibility(View.GONE);
+                        listview_foot_more.setText(getString(R.string.load_all));
+                        listview_foot_more.setVisibility(View.VISIBLE);
 
                     }
                 });
@@ -160,6 +196,7 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
                             toolbar.setTitle(content);
                         }
 
+                        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
                         adapter.setData(resourseHelp.getList());
                         lv_list.setAdapter(adapter);
 
@@ -278,5 +315,12 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
         finish();
         overridePendingTransition(R.anim.slide_back_in,R.anim.slide_back_out);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        QuestionListActivity.this.finish();
     }
 }

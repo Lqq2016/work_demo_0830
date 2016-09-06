@@ -1,6 +1,7 @@
 package com.lqq.test.work_demo_0830.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,10 +58,12 @@ public class SearchActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_search);
 
         x.view().inject(this);
+        addActivity(this);
 
         resourseHelp = getResourseHelp.getResourHelp();
         custom_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         custom_toolbar.setTitle("题目查找");
+        custom_toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         custom_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +73,13 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private void addActivity(SearchActivity searchActivity) {
+
+        getResourseHelp help = getResourseHelp.getResourHelp();
+        help.setActivityList(searchActivity);
 
     }
 
@@ -192,4 +202,10 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        SearchActivity.this.finish();
+    }
 }

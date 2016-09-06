@@ -2,6 +2,7 @@ package com.lqq.test.work_demo_0830.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.lqq.test.work_demo_0830.GetResouse.getResourseHelp;
 import com.lqq.test.work_demo_0830.HelpUtils.XutilsHelp;
 import com.lqq.test.work_demo_0830.R;
 
@@ -43,8 +45,17 @@ public class RegisterActivity extends Activity {
 //        setContentView(R.layout.activity_register);
 
         x.view().inject(this);
+        addActivity(this);
 
         toolbar.setTitle("注册");
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+
+    }
+
+    private void addActivity(RegisterActivity registerActivity) {
+
+        getResourseHelp help = getResourseHelp.getResourHelp();
+        help.setActivityList(registerActivity);
 
     }
 
@@ -117,6 +128,14 @@ public class RegisterActivity extends Activity {
 
             }
         });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        RegisterActivity.this.finish();
 
     }
 }

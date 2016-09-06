@@ -2,6 +2,7 @@ package com.lqq.test.work_demo_0830.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -73,6 +74,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_question_detail);
 
         x.view().inject(this);
+        addActivity(this);
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -95,6 +97,13 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
 //        tv_title.setText(question.getTitle());
 
+
+    }
+
+    private void addActivity(QuestionDetailActivity questionDetailActivity) {
+
+        getResourseHelp help = getResourseHelp.getResourHelp();
+        help.setActivityList(questionDetailActivity);
 
     }
 
@@ -231,6 +240,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     private void getCurrentQuestion(int id) {
 
         toolbar.setTitle("第"+(id+1)+"/"+num+"道题");
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
 
         itemDetail = detailList.get(id);
         tv_title.setText(itemDetail.getContent());
@@ -274,6 +284,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-
+        QuestionDetailActivity.this.finish();
+    }
 }

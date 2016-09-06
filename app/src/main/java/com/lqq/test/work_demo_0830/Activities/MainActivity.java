@@ -1,5 +1,6 @@
 package com.lqq.test.work_demo_0830.Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,6 +74,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     private getResourseHelp help;
     private SharedPreferences login;
+    private long curTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +82,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 //        setContentView(R.layout.activity_main);
 
         x.view().inject(this);
+        addActivity(this);
 
         login = getSharedPreferences("Login", MODE_PRIVATE);
         help = getResourseHelp.getResourHelp();
@@ -98,7 +102,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         changeFragment(new CategoryFragment());
 
         custom_toolbar.setTitle("分类练习");
-        custom_toolbar.setTitleTextColor(Color.parseColor("#000000"));
+        custom_toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
 
 //        custom_toolbar.inflateMenu(R.menu.toolbar_menu);
 //        custom_toolbar.setOnMenuItemClickListener(this);
@@ -132,6 +136,39 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         lv_cehua.setAdapter(adapter);
         lv_cehua.setOnItemClickListener(this);
 
+    }
+
+    private void addActivity(MainActivity mainActivity) {
+
+        getResourseHelp help = getResourseHelp.getResourHelp();
+        help.setActivityList(mainActivity);
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+
+            if ((System.currentTimeMillis() - curTime) >2000 ){
+
+                curTime = System.currentTimeMillis();
+                Toast.makeText(MainActivity.this,"再按一次退出",Toast.LENGTH_SHORT).show();
+
+            }else {
+
+                List<Activity> activityList = help.getActivityList();
+                for (Activity activity:activityList){
+                    activity.finish();
+                }
+
+            }
+
+            return true;
+
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -233,7 +270,10 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 break;
             case R.id.tv_exit:
 
-                MainActivity.this.finish();
+                List<Activity> activityList = help.getActivityList();
+                for (Activity activity:activityList){
+                    activity.finish();
+                }
 
                 break;
 

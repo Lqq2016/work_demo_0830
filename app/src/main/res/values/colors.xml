@@ -34,7 +34,7 @@
 
     <!-- 侧滑栏-->
     <color name="Indigo_colorPrimaryDark">#303f9f</color>
-    <color name="Indigo_colorPrimary">#3f51b5</color>
+    <color name="Indigo_colorPrimary">#ffffff</color>
     <color name="Indigo_nav_color">#4675ff</color>
 
 </resources>

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lqq.test.work_demo_0830.GetResouse.getResourseHelp;
 import com.lqq.test.work_demo_0830.R;
 
 import org.xutils.view.annotation.ContentView;
@@ -47,7 +48,15 @@ public class GuideActivity extends Activity {
 
         x.view().inject(this);
 
+        addActivity(this);
         initView();
+
+    }
+
+    private void addActivity(GuideActivity guideActivity) {
+
+        getResourseHelp help = getResourseHelp.getResourHelp();
+        help.setActivityList(guideActivity);
 
     }
 
@@ -153,6 +162,6 @@ public class GuideActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
 
-        finish();
+        GuideActivity.this.finish();
     }
 }
