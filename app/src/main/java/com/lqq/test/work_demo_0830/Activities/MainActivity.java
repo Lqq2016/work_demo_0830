@@ -329,4 +329,16 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
+//    private void findView(){
+//
+//        custom_toolbar = (Toolbar) findViewById(R.id.custom_toolbar);
+//        custom_drawer = (DrawerLayout) findViewById(R.id.custom_drawer);
+//        img_head = (ImageView) findViewById(R.id.iv_head_img);
+//        tv_nickname = (TextView) findViewById(R.id.tv_nickname);
+//        lv_cehua  = (ListView) findViewById(R.id.lv_cehua_middle);
+//        tv_setting = (TextView) findViewById(R.id.tv_setting);
+//        tv_exit = (TextView) findViewById(R.id.tv_exit);
+//
+//    }
+
 }

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,8 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.List;
+
 @ContentView(value = R.layout.activity_login)
 public class LoginActivity extends Activity {
 
@@ -48,6 +51,8 @@ public class LoginActivity extends Activity {
     private SharedPreferences login;
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
+    private long curTime;
+    private getResourseHelp help;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,7 @@ public class LoginActivity extends Activity {
 
         x.view().inject(this);
         addActivity(this);
+        help = getResourseHelp.getResourHelp();
 
         login = getSharedPreferences("Login", MODE_PRIVATE);
         toolbar.setTitle("登录");
@@ -160,6 +166,32 @@ public class LoginActivity extends Activity {
 
         }
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+
+            if ((System.currentTimeMillis() - curTime) >2000 ){
+
+                curTime = System.currentTimeMillis();
+                Toast.makeText(LoginActivity.this,"再按一次退出",Toast.LENGTH_SHORT).show();
+
+            }else {
+
+                List<Activity> activityList = help.getActivityList();
+                for (Activity activity:activityList){
+                    activity.finish();
+                }
+
+            }
+
+            return true;
+
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
